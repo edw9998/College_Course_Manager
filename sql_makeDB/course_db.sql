@@ -67,7 +67,7 @@ CREATE TABLE Course_History (
 -- Creates savepoint at current state of each table.
 SAVEPOINT AT_CURRENT_STATE;
 
--- Savepoint verification and final commit.
+-- Verify savepoint and commit the final state.
 ROLLBACK TO SAVEPOINT AT_CURRENT_STATE;
 RELEASE SAVEPOINT AT_CURRENT_STATE;
 COMMIT;

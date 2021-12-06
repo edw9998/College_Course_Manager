@@ -4,6 +4,7 @@ SET FOREIGN_KEY_CHECKS = 1;             -- Enable foreign key checking.
 SET AUTOCOMMIT = 0;                     -- Disable autocommit.
 SET time_zone = "+00:00";               -- Set time zone to UTC.
 
+-- Create separate session.
 START TRANSACTION;
 
 -- DB : 'CourseDB'

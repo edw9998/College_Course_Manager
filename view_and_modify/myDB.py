@@ -7,7 +7,7 @@ __db = connect(
   host = "sigma.jasoncoding.com",
   user = "alpha",
   password = "bestdatabase",
-  database = "CourseDB",            # Schema(DATABASE NAME)
+  database = "CourseDB",       
   port = 5555
 )
 

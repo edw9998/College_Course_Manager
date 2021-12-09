@@ -65,6 +65,12 @@ CREATE TABLE Course_History (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- DQL Test.
+SELECT Participants.participant_id AS Participant-ID, Participants.first_name AS First_Name, Participants.last_name AS Last_Name, 
+Courses.course_name AS Course_Name, Courses.final_score AS Final_Score
+FROM (Course_History INNER JOIN Participants ON Course_History.participant_id = Participants.participant_id)
+INNER JOIN Courses ON Course_History.course_id = Courses.course_id;
+
 -- Creates savepoint at current state of each table.
 SAVEPOINT AT_CURRENT_STATE;
 

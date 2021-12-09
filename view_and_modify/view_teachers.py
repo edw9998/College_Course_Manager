@@ -9,7 +9,7 @@ from view_and_modify.myDB import getDb, getDbError
 def view_teachers_page():
     win = Tk()
     win.title("View Table : 'Teachers'")
-    win.geometry("1067x532")                            # (width x height)
+    win.geometry("1067x600")                            # (width x height)
     win.resizable(height = False, width = False)
     win.config(bg = "dark sea green")
 
@@ -51,6 +51,7 @@ def view_teachers_page():
     tree.heading("phone_number", text = "Phone Number", anchor = CENTER)
 
     # Iterate through and insert rows from the 'teacher' table in database into treeview.
+    # start variable tells how many rows available in treeview.
     start = 0
     for row in myCursor:
         tree.insert("", start, text = "", values = (row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
@@ -66,6 +67,18 @@ def view_teachers_page():
 
     # Display treeview(table) at center & top positions.
     tree.place(x = 0, y = 0)
+
+    # Label for entry to display shape and size of table.
+    table_size_label = Label(win, text = "Current Shape Of Table =", font = ("Times New Roman", 15, "bold"), 
+                                    bg = "dark sea green", fg = "aquamarine", width = 20, justify = CENTER)
+    table_size_label.place(x = -10, y = 550)
+
+    # Read-onlyentry to display shape and size of table.
+    table_size_entry = Entry(win, width = 31, bg = "dark sea green", fg = "red", font = ("Times New Roman", 20, "bold"), 
+                                justify = LEFT)
+    table_size_entry.insert(0, '('+ str(start) + 'x' + str(len(row))+')' + " <<>> (N_Rows x N_Columns)")
+    table_size_entry.configure(state = "readonly")
+    table_size_entry.place(x = 230, y = 547)
 
     # Display this sub-window.
     win.mainloop()

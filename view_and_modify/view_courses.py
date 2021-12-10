@@ -5,17 +5,17 @@ from tkinter.ttk import Scrollbar
 
 from view_and_modify.myDB import getDb, getDbError
 
-def view_teachers_page():
+def view_courses_page():
     win = Tk()
-    win.title("View Table : 'Teachers'")
-    win.geometry("1067x600")                            # (width x height)
+    win.title("View Table : 'Courses'")
+    win.geometry("1142x600")                            # (width x height)
     win.resizable(height = False, width = False)
     win.config(bg = "dark sea green")
 
     # Retrieve all rows and keep them in cursor.
     myDb = getDb()
     myCursor = myDb.cursor()
-    myCursor.execute("SELECT * FROM Teachers")
+    myCursor.execute("SELECT * FROM Courses")
 
     tree = Treeview(win, selectmode = 'browse', height = 25)
 
@@ -29,25 +29,25 @@ def view_teachers_page():
     style.configure(".", font = ("Times New Roman", 12))                                                # Rows
 
     # Define the columns.
-    tree["columns"] = ("teacher_id", "first_name", "last_name", "language_utilized", "teachingSince", "tax_id", "phone_number")
+    tree["columns"] = ("course_id", "course_name", "final_score", "level", "course_price_usd", "start_date", "teacher_id")
 
     # Assign column width, min-width attributes & align column names to center.
+    tree.column("course_id", width = 150, minwidth = 150, anchor = CENTER)
+    tree.column("course_name", width = 225, minwidth = 225, anchor = CENTER)
+    tree.column("final_score", width = 150, minwidth = 150, anchor = CENTER)
+    tree.column("level", width = 150, minwidth = 150, anchor = CENTER)
+    tree.column("course_price_usd", width = 150, minwidth = 150, anchor = CENTER)
+    tree.column("start_date", width = 150, minwidth = 150, anchor = CENTER)
     tree.column("teacher_id", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("first_name", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("last_name", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("language_utilized", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("teachingSince", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("tax_id", width = 150, minwidth = 150, anchor = CENTER)
-    tree.column("phone_number", width = 150, minwidth = 150, anchor = CENTER)
 
     # Assign column heading names.
+    tree.heading("course_id", text = "Course-ID", anchor = CENTER)
+    tree.heading("course_name", text = "Course Name", anchor = CENTER)
+    tree.heading("final_score", text = "Final Score", anchor = CENTER)
+    tree.heading("level", text = "Level", anchor = CENTER)
+    tree.heading("course_price_usd", text = "Course Price(US$)", anchor = CENTER)
+    tree.heading("start_date", text = "Start Date", anchor = CENTER)
     tree.heading("teacher_id", text = "Teacher-ID", anchor = CENTER)
-    tree.heading("first_name", text = "First Name", anchor = CENTER)
-    tree.heading("last_name", text = "Last Name", anchor = CENTER)
-    tree.heading("language_utilized", text = "Language Utilized", anchor = CENTER)
-    tree.heading("teachingSince", text = "Teaching Since", anchor = CENTER)
-    tree.heading("tax_id", text = "Tax-ID", anchor = CENTER)
-    tree.heading("phone_number", text = "Phone Number", anchor = CENTER)
 
     # Iterate through and insert rows from the 'teacher' table in database into treeview.
     # start variable tells how many rows available in treeview.

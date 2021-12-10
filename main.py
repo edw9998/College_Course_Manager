@@ -2,6 +2,10 @@
 from tkinter import *
 
 from view_and_modify.view_teachers import view_teachers_page
+from view_and_modify.view_courses import view_courses_page
+from view_and_modify.view_clients import view_clients_page
+from view_and_modify.view_participants import view_participants_page
+from view_and_modify.view_course_history import view_course_history_page
 
 # Main window.
 root = Tk()                                     # Create main window.
@@ -10,18 +14,18 @@ root.resizable(height = False, width = False)   # Disable resizing.
 root.title("Ongoing Course Management System")  
 root.config(bg = "dark goldenrod")              
 
-# Create menu bar to view tables, commands not set yet.
+# Create menu bar to view tables.
 Menu_Bar = Menu(root)
 Table_Menu = Menu(Menu_Bar, tearoff = 0)
 Table_Menu.add_command(label = 'View Table \'Teachers\'', command = lambda: view_teachers_page())
 Table_Menu.add_separator()
-Table_Menu.add_command(label = 'View Table \'Courses\'', command = None)
+Table_Menu.add_command(label = 'View Table \'Courses\'', command = lambda: view_courses_page())
 Table_Menu.add_separator()
-Table_Menu.add_command(label = 'View Table \'Clients\'', command = None)
+Table_Menu.add_command(label = 'View Table \'Clients\'', command = lambda: view_clients_page())
 Table_Menu.add_separator()
-Table_Menu.add_command(label = 'View Table \'Participants\'', command = None)
+Table_Menu.add_command(label = 'View Table \'Participants\'', command = lambda: view_participants_page())
 Table_Menu.add_separator()
-Table_Menu.add_command(label = 'View Table \'Course_History\'', command = None)
+Table_Menu.add_command(label = 'View Table \'Course_History\'', command = lambda: view_course_history_page())
 Table_Menu.add_separator()
 Menu_Bar.add_cascade(label = 'Open Tables', menu = Table_Menu)
 

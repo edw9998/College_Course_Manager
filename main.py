@@ -1,6 +1,7 @@
 # Main page for the app.
 from tkinter import *
 
+from view_and_modify.view_database_er import view_database_er_page
 from view_and_modify.view_teachers import view_teachers_page
 from view_and_modify.view_courses import view_courses_page
 from view_and_modify.view_clients import view_clients_page
@@ -17,6 +18,8 @@ root.config(bg = "dark goldenrod")
 # Create menu bar to view tables.
 Menu_Bar = Menu(root)
 Table_Menu = Menu(Menu_Bar, tearoff = 0)
+Table_Menu.add_command(label = 'View E-R Diagram', command = lambda: view_database_er_page())
+Table_Menu.add_separator()
 Table_Menu.add_command(label = 'View Table \'Teachers\'', command = lambda: view_teachers_page())
 Table_Menu.add_separator()
 Table_Menu.add_command(label = 'View Table \'Courses\'', command = lambda: view_courses_page())
@@ -27,10 +30,10 @@ Table_Menu.add_command(label = 'View Table \'Participants\'', command = lambda: 
 Table_Menu.add_separator()
 Table_Menu.add_command(label = 'View Table \'Course_History\'', command = lambda: view_course_history_page())
 Table_Menu.add_separator()
-Menu_Bar.add_cascade(label = 'Open Tables', menu = Table_Menu)
+Menu_Bar.add_cascade(label = 'More Info', menu = Table_Menu)
 
 Exit_Menu = Menu(Menu_Bar, tearoff = 0)
-Exit_Menu.add_command(label = 'Quit', command = root.quit)
+Exit_Menu.add_command(label = 'Quit Here', command = root.quit)
 Exit_Menu.add_separator()
 Menu_Bar.add_cascade(label = 'Quit Program', menu = Exit_Menu)
 

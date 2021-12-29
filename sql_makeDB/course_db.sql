@@ -1,8 +1,8 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; -- This is preferred for MySQL.
-SET SQL_SAFE_UPDATES = 0;               -- Suppress DML Query Warnings.
-SET FOREIGN_KEY_CHECKS = 1;             -- Enable foreign key checking.
-SET AUTOCOMMIT = 0;                     -- Disable autocommit.
-SET time_zone = "+00:00";               -- Set time zone to UTC.
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";     -- This is preferred for MySQL.
+SET SQL_SAFE_UPDATES = 0;                   -- Suppress DML Query Warnings.
+-- SET FOREIGN_KEY_CHECKS = 0;              -- Disable foreign key checking.
+SET AUTOCOMMIT = 0;                         -- Disable autocommit.
+SET time_zone = "+00:00";                   -- Set time zone to UTC.
 
 -- Create a separate session.
 START TRANSACTION;

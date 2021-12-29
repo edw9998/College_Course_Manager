@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 
 def view_database_er_page():
     win = Tk()
+    win.title("Entity - Relationship Diagram For Course Database")
     win.geometry("700x500")
     win.resizable(height = True, width = True)
 

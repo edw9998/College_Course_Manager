@@ -8,11 +8,13 @@ from view_and_modify.view_clients import view_clients_page
 from view_and_modify.view_participants import view_participants_page
 from view_and_modify.view_course_history import view_course_history_page
 
+from view_and_modify.modify_teachers import modify_teachers_page
+
 # Main window.
 root = Tk()                                     # Create main window.
 root.geometry("750x600+0+0")                    # (width x height) + (shift_x) + (shift_y)
 root.resizable(height = False, width = False)   # Disable resizing.
-root.title("Ongoing Course Management System")  
+root.title("Online Course Database Management System")  
 root.config(bg = "dark goldenrod")              
 
 # Create menu bar to view tables.
@@ -35,7 +37,7 @@ Menu_Bar.add_cascade(label = 'More Info', menu = Table_Menu)
 Exit_Menu = Menu(Menu_Bar, tearoff = 0)
 Exit_Menu.add_command(label = 'Quit Here', command = root.quit)
 Exit_Menu.add_separator()
-Menu_Bar.add_cascade(label = 'Quit Program', menu = Exit_Menu)
+Menu_Bar.add_cascade(label = 'Quit', menu = Exit_Menu)
 
 # Label / title.
 title = Label(root, text = 'Course Database Management', font = ("Times New Roman", 35, "bold"), 
@@ -45,10 +47,10 @@ title.place(x = -187, y = 0)
 '''
 Button Y - Interval = 110.0
 '''
-# Button to access table 'Teachers', command not set.
+# Button to access table 'Teachers'.
 teachers_btn = Button(root, justify = CENTER, width = 27, bg = "gold", fg = "RoyalBlue4", text = "1) Modify Table \'Teachers\'", 
                             font = ("Times New Roman", 25, "bold"), activebackground = None, relief = GROOVE, 
-                            command = None)
+                            command = lambda: modify_teachers_page())
 teachers_btn.place(x = 98, y = 75)
 
 # Button to access table 'Courses', command not set.

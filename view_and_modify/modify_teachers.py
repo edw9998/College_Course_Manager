@@ -7,7 +7,7 @@ from view_and_modify.myDB import getDb, getDbError
 def modify_teachers_page():
     win = Tk()
     win.title("Modify Contents Of Table : 'Teachers'")
-    win.geometry('1060x392+0+0')
+    win.geometry('709x392+0+0')
     win.resizable(height = False, width = False)
     win.config(bg = 'dark turquoise')
 
@@ -114,12 +114,29 @@ def modify_teachers_page():
         else:
             state = True
         return state
+    
+    def disable_foreign_keys():
+        '''
+        Utility function to temporarily disable foreign key constraint.
+        '''
+        my_db = getDb()
+        my_cursor = my_db.cursor()
+        my_cursor.execute("SET GLOBAL FOREIGN_KEY_CHECKS = 0")
+    
+    def reactivate_foreign_keys():
+        '''
+        Utility function to re-enable foreign key constraint.
+        '''
+        my_db = getDb()
+        my_cursor = my_db.cursor()
+        my_cursor.execute("SET GLOBAL FOREIGN_KEY_CHECKS = 1")
 
     def insert_to_teachers():
         if(validate_entries() == False):
             msb.showwarning('Warning', 'Please Fill In All Textfields Properly.')
 
         try:
+            disable_foreign_keys()
             my_db = getDb()
             my_cursor = my_db.cursor()
 
@@ -131,12 +148,15 @@ def modify_teachers_page():
             msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
         except getDbError() as err:
             msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
 
     def update_teachers():
         if(validate_entries() == False):
             msb.showwarning('Warning', 'Please Fill In All Textfields Properly.')
         
         try:
+            disable_foreign_keys()
             my_db = getDb()
             my_cursor = my_db.cursor()
 
@@ -148,9 +168,12 @@ def modify_teachers_page():
             msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
         except getDbError() as err:
             msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
 
     def delete_from_teachers():
         try:
+            disable_foreign_keys()
             my_db = getDb()
             my_cursor = my_db.cursor()
 
@@ -162,6 +185,8 @@ def modify_teachers_page():
             msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
         except getDbError() as err:
             msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
 
     def search_in_teachers():
         try:

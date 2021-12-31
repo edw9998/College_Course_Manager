@@ -9,6 +9,7 @@ from view_and_modify.view_participants import view_participants_page
 from view_and_modify.view_course_history import view_course_history_page
 
 from view_and_modify.modify_teachers import modify_teachers_page
+from view_and_modify.modify_courses import modify_courses_page
 
 # Main window.
 root = Tk()                                     # Create main window.
@@ -53,10 +54,10 @@ teachers_btn = Button(root, justify = CENTER, width = 27, bg = "gold", fg = "Roy
                             command = lambda: modify_teachers_page())
 teachers_btn.place(x = 98, y = 75)
 
-# Button to access table 'Courses', command not set.
+# Button to access table 'Courses'.
 courses_btn = Button(root, justify = CENTER, width = 27, bg = "gold", fg = "RoyalBlue4", text = "2) Modify Table \'Courses\'", 
                            font = ("Times New Roman", 25, "bold"), activebackground = None, relief = GROOVE, 
-                           command = None)
+                           command = lambda: modify_courses_page())
 courses_btn.place(x = 98, y = 75 + (1 * 110.0))
 
 # Button to access table 'Clients', command not set.

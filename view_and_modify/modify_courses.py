@@ -1,13 +1,12 @@
 from tkinter import *
 import tkinter.messagebox as msb
-from typing import ValuesView
 
 from view_and_modify.myDB import getDb, getDbError
 
 def modify_courses_page():
     win = Tk()
     win.title("Modify Contents Of Table : 'Courses'")
-    win.geometry('1000x390+0+0')
+    win.geometry('644x390+0+0')
     win.resizable(height = False, width = False)
     win.config(bg = 'dark turquoise')
 
@@ -93,14 +92,134 @@ def modify_courses_page():
     teacher_id_entry.place(x = 175, y = 0 + 300)
 
     '''
+    Functions for modifying table 'Courses'.
+    '''
+    def reset_entries():
+        course_id_entry.delete(0, END)
+        course_name_entry.delete(0, END)
+        final_score_entry.delete(0, END)
+        level_entry.delete(0, END)
+        course_price_entry.delete(0, END)
+        start_date_entry.delete(0, END)
+        teacher_id_entry.delete(0, END)
+
+    def validate_entries():
+        '''
+        Utility function to ensure all entries contain proper values.
+        '''
+        global state
+        if(course_id_entry.get() == "" or course_name_entry.get() == "" or final_score_entry.get() == "" or level_entry.get() == "" or course_price_entry.get() == "" or start_date_entry.get() == "" or teacher_id_entry.get() == ""):
+            state = False
+        else:
+            state = True
+        return state
+    
+    def disable_foreign_keys():
+        '''
+        Utility function to temporarily disable foreign key constraint.
+        '''
+        my_db = getDb()
+        my_cursor = my_db.cursor()
+        my_cursor.execute("SET GLOBAL FOREIGN_KEY_CHECKS = 0")
+    
+    def reactivate_foreign_keys():
+        '''
+        Utility function to re-enable foreign key constraint.
+        '''
+        my_db = getDb()
+        my_cursor = my_db.cursor()
+        my_cursor.execute("SET GLOBAL FOREIGN_KEY_CHECKS = 1")
+
+    def insert_to_courses():
+        if(validate_entries() == False):
+            msb.showwarning('Warning', 'Please Fill In All Textfields Properly.')
+
+        try:
+            disable_foreign_keys()
+            my_db = getDb()
+            my_cursor = my_db.cursor()
+
+            query = "INSERT INTO Courses (course_id, course_name, final_score, level, course_price_usd, start_date, teacher_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            vals = (course_id_entry.get(), course_name_entry.get(), final_score_entry.get(), level_entry.get(), course_price_entry.get(), start_date_entry.get(), teacher_id_entry.get())
+
+            my_cursor.execute(query, vals)
+            my_db.commit()
+            msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
+        except getDbError() as err:
+            msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
+
+    def update_courses():
+        if(validate_entries() == False):
+            msb.showwarning('Warning', 'Please Fill In All Textfields Properly.')
+        
+        try:
+            disable_foreign_keys()
+            my_db = getDb()
+            my_cursor = my_db.cursor()
+
+            query = "UPDATE Courses SET course_name = %s, final_score = %s, level = %s, course_price_usd = %s, start_date = %s, teacher_id = %s WHERE course_id = %s"
+            vals = (course_name_entry.get(), final_score_entry.get(), level_entry.get(), course_price_entry.get(), start_date_entry.get(), teacher_id_entry.get(), course_id_entry.get())
+
+            my_cursor.execute(query, vals)
+            my_db.commit()
+            msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
+        except getDbError() as err:
+            msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
+
+    def delete_from_courses():
+        try:
+            disable_foreign_keys()
+            my_db = getDb()
+            my_cursor = my_db.cursor()
+
+            query = "DELETE FROM Courses WHERE course_id = %s LIMIT 1"
+            val = (course_id_entry.get(), )
+
+            my_cursor.execute(query, val)
+            my_db.commit()
+            msb.showinfo('Success', str(my_cursor.rowcount) + 'row/s affected.')
+        except getDbError() as err:
+            msb.showerror('Error', str(err))
+        finally:
+            reactivate_foreign_keys()
+
+    def search_in_courses():
+        try:
+            my_db = getDb()
+            my_cursor = my_db.cursor()
+
+            query = "SELECT course_name, final_score, level, course_price_usd, start_date, teacher_id FROM Courses WHERE course_id = %s"
+            val = (course_id_entry.get(), )
+            my_cursor.execute(query, val)
+
+            # Could only fit one unique record.
+            my_result = my_cursor.fetchone()
+
+            reset_entries()
+            course_id_entry.insert(0, val[0])
+            course_name_entry.insert(0, my_result[0])
+            final_score_entry.insert(0, my_result[1])
+            level_entry.insert(0, my_result[2])
+            course_price_entry.insert(0, my_result[3])
+            start_date_entry.insert(0, my_result[4])
+            teacher_id_entry.insert(0, my_result[5])
+            msb.showinfo('Success', 'A Matching Record Was Found !')
+        except getDbError() as err:
+            msb.showerror('Error', str(err))
+
+    '''
     Button Positioning.
     Button Y - Interval = 50.0 px
     Button X - Interval = 125.0 px
     '''
-    # Button to reset all entries. command not set.
+    # Button to reset all entries.
     reset_entries_button = Button(win, justify = CENTER, width = 12, bg = 'blue2', fg = 'white', text = 'Reset \n Entries',
                                           font = ('Times New Roman', 12, "bold"), activebackground = None, relief = GROOVE,
-                                          command = None)
+                                          command = lambda: reset_entries())
     reset_entries_button.place(x = 400, y = 50)
 
     # Button to quit window.
@@ -109,4 +228,29 @@ def modify_courses_page():
                               command = win.destroy)
     quit_btn.place(x = 525, y = 50)
 
+    # Button to insert data into database.
+    insert_btn = Button(win, justify = CENTER, width = 12, height = 2, bg = 'blue2', fg = 'white', text = 'Insert',
+                                font = ('Times New Roman', 12, "bold"), activebackground = None, relief = GROOVE,
+                                command = lambda: insert_to_courses())
+    insert_btn.place(x = 400, y = 125)
+
+    # Button to update data in database.
+    update_btn = Button(win, justify = CENTER, width = 12, height = 2, bg = 'blue2', fg = 'white', text = 'Update \n By Course - ID',
+                                font = ('Times New Roman', 12, "bold"), activebackground = None, relief = GROOVE,
+                                command = lambda: update_courses())
+    update_btn.place(x = 525, y = 125)
+
+    # Button to delete data from database.
+    delete_btn = Button(win, justify = CENTER, width = 12, height = 2, bg = 'blue2', fg = 'white', text = 'Delete \n By Course - ID',
+                                font = ('Times New Roman', 12, "bold"), activebackground = None, relief = GROOVE,
+                                command = lambda: delete_from_courses())
+    delete_btn.place(x = 400, y = 200)
+
+    # Button to search data in database.
+    search_btn = Button(win, justify = CENTER, width = 12, height = 2, bg = 'blue2', fg = 'white', text = 'Search \n By Course - ID',
+                                font = ('Times New Roman', 12, "bold"), activebackground = None, relief = GROOVE,
+                                command = lambda: search_in_courses())
+    search_btn.place(x = 525, y = 200)
+
+    win.mainloop()
     return

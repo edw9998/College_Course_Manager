@@ -7,7 +7,7 @@ from view_and_modify.myDB import getDb, getDbError
 
 def view_course_history_page():
     win = Tk()
-    win.title("View Table : 'Teachers'")
+    win.title("View Table : 'Course History'")
     win.geometry("682x600")                            # (width x height)
     win.resizable(height = False, width = False)
     win.config(bg = "dark sea green")

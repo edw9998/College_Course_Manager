@@ -68,14 +68,14 @@ def view_teachers_page():
     tree.place(x = 0, y = 0)
 
     # Label for entry to display shape and size of table.
-    table_size_label = Label(win, text = "Current Shape Of Table =", font = ("Times New Roman", 15, "bold"), 
+    table_size_label = Label(win, text = "Number Of Records =", font = ("Times New Roman", 15, "bold"), 
                                     bg = "dark sea green", fg = "aquamarine", width = 20, justify = CENTER)
     table_size_label.place(x = -10, y = 550)
 
     # Read-onlyentry to display shape and size of table.
     table_size_entry = Entry(win, width = 31, bg = "dark sea green", fg = "red", font = ("Times New Roman", 20, "bold"), 
                                 justify = LEFT)
-    table_size_entry.insert(0, '('+ str(start) + 'x' + str(len(row))+')' + " <<>> (N_Rows x N_Columns)")
+    table_size_entry.insert(0, str(start))
     table_size_entry.configure(state = "readonly")
     table_size_entry.place(x = 230, y = 547)
 

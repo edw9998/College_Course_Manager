@@ -16,7 +16,7 @@ from view_and_modify.modify_course_history import modify_course_history_page
 
 # Main window.
 root = Tk()                                             # Create main window.
-root.geometry("750x600+0+0")                            # (width x height) + (shift_x) + (shift_y)
+root.geometry("750x635+0+0")                            # (width x height) + (shift_x) + (shift_y)
 root.resizable(height = False, width = False)           # Disable resizing.
 root.title("Online Course Database Management System")  
 root.iconbitmap("images\icon.jpg")                      # Set icon.
@@ -81,6 +81,11 @@ course_history_btn = Button(root, justify = CENTER, width = 27, bg = "gold", fg 
                                   font = ("Times New Roman", 25, "bold"), activebackground = None, relief = GROOVE, 
                                   command = lambda: modify_course_history_page())
 course_history_btn.place(x = 98, y = 75 + (4 * 110.0))
+
+# Label to display team members.
+team_members_label = Label(root, text = 'Made By : Ariel, Edward And Rendy(Class L3BC)', font = ("Times New Roman", 15, "bold"), 
+                                   bg = 'dark goldenrod', fg = 'cyan', width = 45, justify = CENTER)
+team_members_label.place(x = -60, y = (75 + (4 * 110.0)) + 72)
 
 # Run app.
 if __name__ == '__main__':

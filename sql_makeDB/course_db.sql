@@ -1,6 +1,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";         -- This is preferred for MySQL.
 SET SQL_SAFE_UPDATES = 0;                       -- Suppress DML Query Warnings.
-SET GLOBAL FOREIGN_KEY_CHECKS = 1;              -- Disable foreign key checking.
+SET FOREIGN_KEY_CHECKS = 1;                     -- Disable foreign key checking.
 SET AUTOCOMMIT = 0;                             -- Disable autocommit.
 SET time_zone = "+00:00";                       -- Set time zone to UTC.
 
@@ -65,16 +65,46 @@ CREATE TABLE Course_History (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
--- DQL Test.
-SELECT Participants.participant_id AS Participant-ID, Participants.first_name AS First_Name, Participants.last_name AS Last_Name, 
-Courses.course_name AS Course_Name, Courses.final_score AS Final_Score
-FROM (Course_History INNER JOIN Participants ON Course_History.participant_id = Participants.participant_id)
-INNER JOIN Courses ON Course_History.course_id = Courses.course_id;
+-- Inserts testing data.
+INSERT INTO Teachers(teacher_id, first_name, last_name, language_utilized, teachingSince, tax_id, phone_number) VALUES 
+(1791, 'Mona', 'Megistus', 'English', '1999', 'T-0195710', '(+1)9104810294'),
+(8954, 'Diluc', 'Ragnvindr', 'English', '2012', 'T-8560924', '(+1)0194123124'),
+(9542, 'Kaeya', 'Alberich', 'English', '2001', 'T-1940241', '(+1)9014291022'),
+(2001, 'Sangonomiya', 'Kokomi', 'Japanese', '2015', 'T-1923014', '(+1)8102943019'),
+(8465, 'Kamisato', 'Ayaka', 'Japanese', '2007', 'T-1849291', '(+1)9182477212');
+
+INSERT INTO Courses(course_id, course_name, final_score, level, course_price_usd, start_date, teacher_id) VALUES
+(90999, 'Fundamentals Of Astrology', 85.55, 'Expert', 89.99, '2007-01-14', 1791),
+(81099, 'Fire Science V', 76.88, 'Expert', 74.99, '2015-08-09', 8954),
+(75662, 'Glaciology I', 99.80, 'Beginner', 25.99, '2020-12-02', 9542),
+(32165, 'Ancient Medical Practices', 87.76, 'Intermediate', 45.99, '2021-06-11', 2001),
+(74111, 'Live C++ Course : From The Basics', 73.42, 'Intermediate', 35.99, '2008-09-19', 8465);
+
+INSERT INTO Clients(client_id, client_name, address, industry) VALUES
+(78342666, 'Razor', 'Wolvendom, Mondstadt', 'Dawn Winery'),
+(98101822, 'Zhongli', 'Qixing, Liyue', 'The Shrine Of Depths'),
+(87673211, 'Kaedahara Kazuha', 'Narukami Island, Inazuma', 'The Tenshukaku'),
+(65768900, 'Sister Rosaria', 'Starfell Valley, Mondstadt', 'Dawn Winery'),
+(43678921, 'Lady Ningguang', 'Liyue Harbor, Liyue', 'The Northland Bank');
+
+INSERT INTO Participants(participant_id, first_name, last_name, phone_no, client_designated) VALUES
+(751, 'Hu', 'Tao', '(+1)1902349188', 78342666),
+(750, 'Xing', 'Qiu', '(+1)1615234909', 98101822),
+(621, 'Eula', 'Lawrence', '(+1)8432327909', 87673211),
+(422, 'Bei', 'Dou', '(+1)1115674831', 65768900),
+(991, 'Yan', 'Fei', '(+1)2546743277', 43678921);
+
+INSERT INTO Course_History(participant_id, course_id) VALUES
+(751, 90999),
+(750, 81099),
+(621, 75662),
+(422, 32165),
+(991, 74111);
 
 -- Creates savepoint at current state of each table.
 SAVEPOINT AT_CURRENT_STATE;
 
--- Verify savepoint and commit the final state.
+-- Verify savepoint and commit final state.
 ROLLBACK TO SAVEPOINT AT_CURRENT_STATE;
 RELEASE SAVEPOINT AT_CURRENT_STATE;
 COMMIT;
